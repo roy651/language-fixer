@@ -101,37 +101,46 @@ language-fixer-uninstall-service   # Uninstall completely
 
 ## Quick Start
 
-### Default Mode (Hebrew-English)
+The service comes pre-configured with Hebrew-English support. After installation:
 
-```bash
-uv run python -m language_fixer
-```
-
-Press `Cmd+Shift+H` to convert between Hebrew and English.
-
-### With Configuration
-
-1. **Copy the example config**:
+1. **Start the service**:
    ```bash
-   cp config.example.yaml config.yaml
+   language-fixer-install-service
    ```
 
-2. **Edit config.yaml** to enable/disable language pairs and customize hotkeys
+2. **Grant permissions** (see Permissions section above)
 
-3. **Run**:
-   ```bash
-   uv run python -m language_fixer
-   ```
+3. **Use it**: Type in the wrong language, press `Cmd+Shift+H` to fix!
 
 ## Configuration
 
-Create a `config.yaml` file in the project root to customize behavior:
+Language Fixer uses a `config.yaml` file for configuration. By default, it comes with Hebrew-English support.
+
+### Default Configuration
+
+The included `config.yaml` provides Hebrew-English conversion:
 
 ```yaml
-# Buffer timeout in seconds
 buffer_timeout: 10.0
 
-# Language pairs
+language_pairs:
+  - name: "Hebrew-English"
+    mapping_file: "mappings/hebrew-english.json"
+    hotkey: "cmd+shift+h"
+    enabled: true
+```
+
+### Adding More Languages
+
+To add support for additional languages:
+
+#### Option 1: Use Built-in Mappings
+
+We provide Arabic and Russian mappings. Edit your `config.yaml`:
+
+```yaml
+buffer_timeout: 10.0
+
 language_pairs:
   - name: "Hebrew-English"
     mapping_file: "mappings/hebrew-english.json"
@@ -149,25 +158,21 @@ language_pairs:
     enabled: true
 ```
 
-### Built-in Language Mappings
+#### Option 2: Create Custom Mapping
 
-- **Hebrew-English**: `mappings/hebrew-english.json`
-- **Arabic-English**: `mappings/arabic-english.json`
-- **Russian-English**: `mappings/russian-english.json`
-
-## Creating Custom Language Mappings
-
-Use the built-in mapping generator:
+Use the built-in generator to create your own language mapping:
 
 ```bash
-uv run language-fixer-generate-mapping
+language-fixer-generate-mapping
 ```
 
 The tool will:
-1. Ask for language pair details
-2. Guide you through mapping each key
-3. Save the mapping file in the `mappings/` directory
-4. Show you how to add it to your config
+1. Ask for language pair details (e.g., "Spanish-English")
+2. Guide you through mapping each keyboard key
+3. Save the mapping to `mappings/your-language.json`
+4. Show you how to add it to `config.yaml`
+
+All languages work exactly the same way - just load different mapping files!
 
 ## Usage Examples
 

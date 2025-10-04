@@ -1,6 +1,6 @@
 [project]
 name = "language-fixer"
-version = "0.2.5"
+version = "0.3.0"
 description = "A flexible macOS utility that retroactively fixes text typed in the wrong keyboard layout with support for multiple languages"
 readme = "README.md"
 license = {text = "MIT"}

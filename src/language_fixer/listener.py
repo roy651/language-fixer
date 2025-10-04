@@ -7,7 +7,7 @@ import pyperclip
 from pynput import keyboard
 from pynput.keyboard import Key, Controller, Listener
 
-from .converter import LanguageConverter, convert_text, detect_language
+from .converter import LanguageConverter
 from .config import Config, LanguagePair
 
 

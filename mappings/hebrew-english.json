@@ -3,7 +3,7 @@
   "description": "Standard Hebrew keyboard layout mapping to QWERTY English",
   "mapping": {
     "q": "/",
-    "w": "'",
+    "w": "׳",
     "e": "ק",
     "r": "ר",
     "t": "א",
@@ -33,7 +33,7 @@
     ".": "ץ",
     "/": ".",
     "Q": "/",
-    "W": "'",
+    "W": "׳",
     "E": "ק",
     "R": "ר",
     "T": "א",
