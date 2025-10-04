@@ -32,8 +32,9 @@ language-fixer-install-service = "language_fixer.install_service:main"
 language-fixer-uninstall-service = "language_fixer.install_service:main_uninstall"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/language-fixer"
-Issues = "https://github.com/yourusername/language-fixer/issues"
+Homepage = "https://github.com/roy651/language-fixer"
+Issues = "https://github.com/roy651/language-fixer/issues"
+Repository = "https://github.com/roy651/language-fixer"
 
 [build-system]
 requires = ["hatchling"]
