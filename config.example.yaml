@@ -1,0 +1,34 @@
+# Language Fixer Configuration
+# Copy this file to config.yaml and customize as needed
+
+# Buffer timeout in seconds - how long to keep typed text in memory
+buffer_timeout: 10.0
+
+# Language pairs - each pair can have its own hotkey
+# Hotkey format: modifiers+key (e.g., cmd+shift+h)
+# The key will work in both keyboard layouts (physical key position)
+language_pairs:
+  - name: "Hebrew-English"
+    mapping_file: "mappings/hebrew-english.json"
+    hotkey: "cmd+shift+h"
+    enabled: true
+
+  - name: "Arabic-English"
+    mapping_file: "mappings/arabic-english.json"
+    hotkey: "cmd+shift+a"
+    enabled: false
+
+  - name: "Russian-English"
+    mapping_file: "mappings/russian-english.json"
+    hotkey: "cmd+shift+r"
+    enabled: false
+
+# Optional: Visual feedback when conversion happens
+# (Future feature - not yet implemented)
+# show_notification: false
+
+# Optional: List of apps to exclude (bundle identifiers)
+# (Future feature - not yet implemented)
+# excluded_apps:
+#   - "com.apple.Terminal"
+#   - "com.microsoft.VSCode"
