@@ -2,7 +2,7 @@
 
 A flexible macOS utility that retroactively fixes text typed in the wrong keyboard layout. Supports multiple language pairs with configurable hotkeys.
 
-./assets/demo.mp4
+https://github.com/roy651/language-fixer/blob/main/assets/demo.mp4
 
 ## Features
 
