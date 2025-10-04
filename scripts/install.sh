@@ -6,8 +6,8 @@ set -e
 
 echo "Installing Language Fixer LaunchAgent..."
 
-# Get the absolute path to the project directory
-PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# Get the absolute path to the project directory (parent of scripts/)
+PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 # Find uv executable
 UV_PATH=$(which uv)

@@ -140,22 +140,17 @@ class LanguageFixer:
             self.converting = True
             text = ''.join(self.buffer)
 
-            # Determine conversion based on handler or legacy mode
+            # Convert text using handler's converter
             if handler:
                 current_lang = handler.converter.detect_language(text)
                 to_other = (current_lang == 'english')
                 converted = handler.converter.convert_text(text, to_other)
-            else:
-                # Legacy mode
-                current_lang = detect_language(text)
-                to_hebrew = (current_lang == 'english')
-                converted = convert_text(text, to_hebrew)
 
-            # Perform the replacement
-            self._replace_text(text, converted)
+                # Perform the replacement
+                self._replace_text(text, converted)
 
-            # Store for potential toggle-back
-            self.last_conversion = (text, converted, handler)
+                # Store for potential toggle-back
+                self.last_conversion = (text, converted, handler)
 
             self.buffer.clear()
             self.converting = False

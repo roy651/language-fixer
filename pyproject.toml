@@ -1,6 +1,6 @@
 [project]
 name = "language-fixer"
-version = "0.3.0"
+version = "0.5.4"
 description = "A flexible macOS utility that retroactively fixes text typed in the wrong keyboard layout with support for multiple languages"
 readme = "README.md"
 license = {text = "MIT"}
@@ -26,13 +26,8 @@ classifiers = [
 ]
 
 [project.scripts]
-language-fixer = "language_fixer.__main__:main"
-language-fixer-generate-mapping = "language_fixer.generate_mapping:main"
-language-fixer-install-service = "language_fixer.install_service:main"
-language-fixer-uninstall-service = "language_fixer.install_service:main_uninstall"
-language-fixer-restart-service = "language_fixer.install_service:main_restart"
-language-fixer-stop-service = "language_fixer.install_service:main_stop"
-language-fixer-status = "language_fixer.install_service:main_status"
+language-fixer = "language_fixer.cli:main"
+lang-fix = "language_fixer.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/roy651/language-fixer"

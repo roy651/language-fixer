@@ -39,13 +39,17 @@ def load_mapping(mapping_file: str, project_root: Path) -> tuple[Dict[str, str],
     """Load a mapping file and create reverse mapping.
 
     Args:
-        mapping_file: Path to mapping JSON file (relative to project root)
+        mapping_file: Path to mapping JSON file (relative to project root or absolute)
         project_root: Project root directory
 
     Returns:
         Tuple of (forward_mapping, reverse_mapping)
     """
-    mapping_path = project_root / mapping_file
+    # Handle absolute paths and ~ expansion
+    if mapping_file.startswith('~') or mapping_file.startswith('/'):
+        mapping_path = Path(mapping_file).expanduser()
+    else:
+        mapping_path = project_root / mapping_file
 
     if not mapping_path.exists():
         raise FileNotFoundError(f"Mapping file not found: {mapping_path}")

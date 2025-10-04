@@ -1,6 +1,6 @@
 """Language Fixer - Retroactively fix typing in wrong language."""
 
-__version__ = "0.3.0"
+__version__ = "0.5.4"
 
 from .converter import LanguageConverter
 from .listener import LanguageFixer, HotkeyHandler

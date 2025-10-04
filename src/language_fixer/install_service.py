@@ -34,7 +34,9 @@ PLIST_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 
 
 def get_python_path():
-    """Get the path to the Python interpreter."""
+    """Get the path to the Python interpreter (venv path, not resolved)."""
+    # Use the venv Python path as-is for running the service
+    # Don't resolve symlinks here - we need the venv Python, not system Python
     return sys.executable
 
 
@@ -105,16 +107,23 @@ def install_service():
     print()
     print("macOS needs TWO permissions for the keyboard listener:")
     print()
-    print("1. Input Monitoring (will prompt automatically):")
-    print("   System Preferences → Security & Privacy → Input Monitoring")
-    print("   ✓ Enable: Python (or python3)")
+
+    # Show the real Python path for permissions
+    real_python_path = os.path.realpath(python_path)
+    print("Add this Python executable to BOTH permission lists:")
+    print(f"  {real_python_path}")
     print()
-    print("2. Accessibility (check manually):")
-    print("   System Preferences → Security & Privacy → Accessibility")
-    print("   ✓ Enable: Python (or python3)")
+
+    print("1. Input Monitoring:")
+    print("   System Settings → Privacy & Security → Input Monitoring")
+    print(f"   ✓ Enable: {real_python_path}")
+    print()
+    print("2. Accessibility:")
+    print("   System Settings → Privacy & Security → Accessibility")
+    print(f"   ✓ Enable: {real_python_path}")
     print()
     print("After granting BOTH permissions, restart the service:")
-    print("  language-fixer-restart-service")
+    print("  lang-fix service restart")
     print()
     print("=" * 70)
     print()

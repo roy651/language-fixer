@@ -1,6 +1,7 @@
 """Main entry point for language-fixer."""
 
 import sys
+from pathlib import Path
 from .listener import LanguageFixer
 from .config import load_config, get_default_config
 
@@ -8,9 +9,17 @@ from .config import load_config, get_default_config
 def main():
     """Run the language fixer."""
     try:
-        # Try to load config file
-        config = load_config()
-        print(f"Loaded configuration from config.yaml")
+        # Try to load config from user's config directory first
+        config_dir = Path.home() / ".config" / "language-fixer"
+        config_file = config_dir / "config.yaml"
+
+        if config_file.exists():
+            config = load_config(str(config_file))
+            print(f"Loaded configuration from {config_file}")
+        else:
+            # Try current directory
+            config = load_config()
+            print(f"Loaded configuration from config.yaml")
     except FileNotFoundError:
         # No config file, use defaults
         print("No config.yaml found, using default configuration")
