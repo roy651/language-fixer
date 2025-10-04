@@ -2,6 +2,8 @@
 
 A flexible macOS utility that retroactively fixes text typed in the wrong keyboard layout. Supports multiple language pairs with configurable hotkeys.
 
+./assets/demo.mp4
+
 ## Features
 
 - **Multiple Language Support**: Hebrew, Arabic, Russian, or create your own
