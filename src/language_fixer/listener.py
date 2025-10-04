@@ -241,8 +241,14 @@ class LanguageFixer:
                 if matched:
                     return
 
+                # Handle backspace - remove last character from buffer
+                if key == Key.backspace:
+                    with self.lock:
+                        if self.buffer:
+                            self.buffer.pop()
+                            self.last_key_time = time.time()
                 # Handle space key specially
-                if key == Key.space:
+                elif key == Key.space:
                     self.add_to_buffer(' ')
                 # Regular character - add to buffer
                 elif hasattr(key, 'char') and key.char:

@@ -1,13 +1,13 @@
 [project]
 name = "language-fixer"
-version = "0.2.0"
+version = "0.2.5"
 description = "A flexible macOS utility that retroactively fixes text typed in the wrong keyboard layout with support for multiple languages"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "Avigail Marecha", email = "your.email@example.com"}
+    {name = "Roy Abitbol", email = "roy.abitbol@gmail.com"}
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 dependencies = [
     "pynput>=1.8.1",
     "pyperclip>=1.11.0",
@@ -30,6 +30,9 @@ language-fixer = "language_fixer.__main__:main"
 language-fixer-generate-mapping = "language_fixer.generate_mapping:main"
 language-fixer-install-service = "language_fixer.install_service:main"
 language-fixer-uninstall-service = "language_fixer.install_service:main_uninstall"
+language-fixer-restart-service = "language_fixer.install_service:main_restart"
+language-fixer-stop-service = "language_fixer.install_service:main_stop"
+language-fixer-status = "language_fixer.install_service:main_status"
 
 [project.urls]
 Homepage = "https://github.com/roy651/language-fixer"

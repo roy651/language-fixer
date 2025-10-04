@@ -43,8 +43,10 @@ Issues = "https://github.com/YOUR_USERNAME/language-fixer/issues"
 # Clean previous builds
 rm -rf dist/ build/ *.egg-info
 
-# Build wheel and source distribution
-python -m build
+# Build wheel and source distribution (use one of these):
+python3 -m build          # If you have python3
+# OR
+uv run python -m build    # If using uv
 ```
 
 This creates:
@@ -55,7 +57,9 @@ This creates:
 
 ```bash
 # Upload to Test PyPI
-python -m twine upload --repository testpypi dist/*
+python3 -m twine upload --repository testpypi dist/*
+# OR
+uv run twine upload --repository testpypi dist/*
 
 # Test installation
 pip install --index-url https://test.pypi.org/simple/ language-fixer
@@ -65,7 +69,9 @@ pip install --index-url https://test.pypi.org/simple/ language-fixer
 
 ```bash
 # Upload to PyPI
-python -m twine upload dist/*
+python3 -m twine upload dist/*
+# OR
+uv run twine upload dist/*
 ```
 
 You'll be prompted for your API token.

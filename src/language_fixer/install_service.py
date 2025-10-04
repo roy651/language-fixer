@@ -38,6 +38,21 @@ def get_python_path():
     return sys.executable
 
 
+def get_plist_path():
+    """Get the plist file path."""
+    return Path.home() / "Library" / "LaunchAgents" / "com.languagefixer.plist"
+
+
+def is_service_running():
+    """Check if the service is currently running."""
+    result = subprocess.run(
+        ['launchctl', 'list'],
+        capture_output=True,
+        text=True
+    )
+    return 'com.languagefixer' in result.stdout
+
+
 def install_service():
     """Install Language Fixer as a LaunchAgent."""
     print("Installing Language Fixer as a macOS service...")
@@ -45,7 +60,7 @@ def install_service():
 
     # Get paths
     python_path = get_python_path()
-    plist_dest = Path.home() / "Library" / "LaunchAgents" / "com.languagefixer.plist"
+    plist_dest = get_plist_path()
 
     print(f"Python: {python_path}")
     print(f"Service file: {plist_dest}")
@@ -82,22 +97,39 @@ def install_service():
 
     print(f"✓ Service loaded and started")
     print()
-    print("=" * 60)
+    print("=" * 70)
     print("Language Fixer is now running as a background service!")
-    print("=" * 60)
+    print("=" * 70)
     print()
-    print("Configuration:")
-    print("  - Default: Hebrew-English with Cmd+Shift+H")
-    print("  - To customize: Create a config.yaml file")
+    print("⚠️  IMPORTANT: Grant Permissions")
     print()
-    print("Management:")
-    print(f"  - Stop:    launchctl unload {plist_dest}")
-    print(f"  - Start:   launchctl load {plist_dest}")
-    print(f"  - Uninstall: language-fixer-uninstall-service")
+    print("macOS needs TWO permissions for the keyboard listener:")
+    print()
+    print("1. Input Monitoring (will prompt automatically):")
+    print("   System Preferences → Security & Privacy → Input Monitoring")
+    print("   ✓ Enable: Python (or python3)")
+    print()
+    print("2. Accessibility (check manually):")
+    print("   System Preferences → Security & Privacy → Accessibility")
+    print("   ✓ Enable: Python (or python3)")
+    print()
+    print("After granting BOTH permissions, restart the service:")
+    print("  language-fixer-restart-service")
+    print()
+    print("=" * 70)
+    print()
+    print("Management Commands:")
+    print("  language-fixer-status           - Check if running")
+    print("  language-fixer-restart-service  - Restart the service")
+    print("  language-fixer-stop-service     - Stop the service")
+    print("  language-fixer-uninstall-service - Uninstall completely")
+    print()
+    print("Default Hotkey: Cmd+Shift+H (Hebrew-English)")
+    print("Customize: Create a config.yaml file")
     print()
     print("Logs:")
-    print("  - Output: tail -f /tmp/languagefixer.out")
-    print("  - Errors: tail -f /tmp/languagefixer.err")
+    print("  tail -f /tmp/languagefixer.out")
+    print("  tail -f /tmp/languagefixer.err")
     print()
 
     return True
@@ -107,7 +139,7 @@ def uninstall_service():
     """Uninstall Language Fixer service."""
     print("Uninstalling Language Fixer service...")
 
-    plist_file = Path.home() / "Library" / "LaunchAgents" / "com.languagefixer.plist"
+    plist_file = get_plist_path()
 
     # Stop the service
     if plist_file.exists():
@@ -128,6 +160,100 @@ def uninstall_service():
     print("✓ Log files removed")
     print()
     print("Language Fixer service has been uninstalled.")
+
+
+def restart_service():
+    """Restart the Language Fixer service."""
+    print("Restarting Language Fixer service...")
+
+    plist_file = get_plist_path()
+
+    if not plist_file.exists():
+        print("✗ Service not installed. Run: language-fixer-install-service")
+        return False
+
+    # Stop
+    subprocess.run(
+        ['launchctl', 'unload', str(plist_file)],
+        capture_output=True
+    )
+    print("✓ Service stopped")
+
+    # Start
+    result = subprocess.run(
+        ['launchctl', 'load', str(plist_file)],
+        capture_output=True,
+        text=True
+    )
+
+    if result.returncode != 0:
+        print(f"✗ Error starting service: {result.stderr}")
+        return False
+
+    print("✓ Service started")
+    print()
+    print("Service restarted successfully!")
+    return True
+
+
+def stop_service():
+    """Stop the Language Fixer service."""
+    print("Stopping Language Fixer service...")
+
+    plist_file = get_plist_path()
+
+    if not plist_file.exists():
+        print("✗ Service not installed")
+        return False
+
+    subprocess.run(
+        ['launchctl', 'unload', str(plist_file)],
+        capture_output=True
+    )
+
+    print("✓ Service stopped")
+    print()
+    print("To start again: language-fixer-restart-service")
+    return True
+
+
+def status_service():
+    """Check and display service status."""
+    plist_file = get_plist_path()
+
+    print("Language Fixer Service Status")
+    print("=" * 40)
+    print()
+
+    if not plist_file.exists():
+        print("Status: NOT INSTALLED")
+        print()
+        print("To install: language-fixer-install-service")
+        return
+
+    if is_service_running():
+        print("Status: RUNNING ✓")
+        print()
+
+        # Show recent logs if available
+        log_file = Path('/tmp/languagefixer.out')
+        if log_file.exists() and log_file.stat().st_size > 0:
+            print("Recent output:")
+            result = subprocess.run(
+                ['tail', '-5', str(log_file)],
+                capture_output=True,
+                text=True
+            )
+            for line in result.stdout.strip().split('\n'):
+                print(f"  {line}")
+        print()
+        print("Commands:")
+        print("  language-fixer-restart-service  - Restart")
+        print("  language-fixer-stop-service     - Stop")
+    else:
+        print("Status: STOPPED")
+        print()
+        print("To start: language-fixer-restart-service")
 
 
 def main():
@@ -155,6 +281,56 @@ def main_uninstall():
 
     try:
         uninstall_service()
+    except KeyboardInterrupt:
+        print("\nAborted.")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def main_restart():
+    """Entry point for service restart."""
+    if sys.platform != 'darwin':
+        print("Error: Service management is only supported on macOS")
+        sys.exit(1)
+
+    try:
+        if not restart_service():
+            sys.exit(1)
+    except KeyboardInterrupt:
+        print("\nAborted.")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def main_stop():
+    """Entry point for service stop."""
+    if sys.platform != 'darwin':
+        print("Error: Service management is only supported on macOS")
+        sys.exit(1)
+
+    try:
+        if not stop_service():
+            sys.exit(1)
+    except KeyboardInterrupt:
+        print("\nAborted.")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def main_status():
+    """Entry point for service status check."""
+    if sys.platform != 'darwin':
+        print("Error: Service management is only supported on macOS")
+        sys.exit(1)
+
+    try:
+        status_service()
     except KeyboardInterrupt:
         print("\nAborted.")
         sys.exit(1)

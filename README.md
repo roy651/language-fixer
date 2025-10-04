@@ -15,32 +15,69 @@ A flexible macOS utility that retroactively fixes text typed in the wrong keyboa
 ## Requirements
 
 - macOS (tested on macOS 10.14+)
-- Python 3.12+
+- Python 3.9+
 
 ## Installation
 
-### Option 1: Install from PyPI (Recommended)
+### Recommended: Install with pipx
 
-**One-command installation:**
+`pipx` is the cleanest way to install Python CLI tools:
 
 ```bash
+# Install pipx if you don't have it
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+
+# Close and reopen your terminal, then:
 pipx install language-fixer
 ```
 
-Or with pip:
+### Alternative: Install with pip
+
 ```bash
-pip install language-fixer
+pip3 install language-fixer
 ```
 
-**Setup as background service:**
+**Note:** If you use pip, you may need to add Python's bin directory to your PATH:
+```bash
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+```
+Add this to your `~/.zshrc` or `~/.bash_profile` to make it permanent.
+
+### Setup as Background Service
+
 ```bash
 language-fixer-install-service
 ```
 
-**Grant accessibility permissions:**
-- Go to System Preferences → Security & Privacy → Privacy → Accessibility
-- Add Terminal (or your terminal app) to the list of allowed apps
-- This is required for the keyboard listener to work
+### Grant Permissions (Important!)
+
+macOS requires **TWO permissions** for the keyboard listener to work:
+
+**1. Input Monitoring** (will prompt automatically when first run)
+   - System Preferences → Security & Privacy → **Input Monitoring**
+   - Enable: **Python** (or python3)
+
+**2. Accessibility** (must enable manually)
+   - System Preferences → Security & Privacy → **Accessibility**
+   - Click lock to make changes
+   - Click **+** and navigate to `/usr/bin` or `/usr/local/bin`
+   - Add **python3**
+   - Enable the checkbox
+
+**After granting both permissions:**
+```bash
+language-fixer-restart-service
+```
+
+### Service Management
+
+```bash
+language-fixer-status              # Check if running
+language-fixer-restart-service     # Restart service
+language-fixer-stop-service        # Stop service
+language-fixer-uninstall-service   # Uninstall completely
+```
 
 ### Option 2: Install from Source
 
