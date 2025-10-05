@@ -23,7 +23,7 @@ class HotkeyHandler:
         self.pair = pair
         self.converter = LanguageConverter(pair.mapping, pair.reverse_mapping)
 
-        # Parse hotkey (e.g., "cmd+shift+h")
+        # Parse hotkey (e.g., "cmd+alt+h")
         parts = pair.hotkey.lower().split('+')
         self.modifiers = set()
         self.trigger_key = None
@@ -155,6 +155,25 @@ class LanguageFixer:
             self.buffer.clear()
             self.converting = False
 
+    def _switch_keyboard_layout(self) -> None:
+        """Switch to the next keyboard layout using macOS shortcut.
+
+        Uses Ctrl+Space to cycle through input sources (default macOS shortcut).
+        """
+        try:
+            # Press Ctrl+Space to switch keyboard layout
+            self.controller.press(Key.ctrl)
+            time.sleep(0.05)
+            self.controller.press(Key.space)
+            time.sleep(0.1)
+            self.controller.release(Key.space)
+            time.sleep(0.05)
+            self.controller.release(Key.ctrl)
+            time.sleep(0.1)
+        except Exception:
+            # If switching fails, just continue without it
+            pass
+
     def _replace_text(self, old_text: str, new_text: str) -> None:
         """Replace old text with new text using clipboard.
 
@@ -168,8 +187,19 @@ class LanguageFixer:
         except:
             old_clipboard = ""
 
-        # Give a small delay to ensure hotkey is released
-        time.sleep(0.1)
+        # Explicitly release all modifier keys to prevent interference
+        # This prevents Cmd+Backspace behavior in browsers
+        self.controller.release(Key.cmd)
+        self.controller.release(Key.cmd_r)
+        self.controller.release(Key.shift)
+        self.controller.release(Key.shift_r)
+        self.controller.release(Key.ctrl)
+        self.controller.release(Key.ctrl_r)
+        self.controller.release(Key.alt)
+        self.controller.release(Key.alt_r)
+
+        # Give a small delay to ensure hotkey is fully released
+        time.sleep(0.15)
 
         # Delete original text if any
         if old_text:
@@ -188,7 +218,11 @@ class LanguageFixer:
         self.controller.release('v')
         self.controller.release(Key.cmd)
 
-        time.sleep(0.1)
+        # Wait longer before switching layout to ensure paste completes
+        time.sleep(0.2)
+
+        # Switch keyboard layout to target language
+        self._switch_keyboard_layout()
 
         # Restore old clipboard
         try:
@@ -234,6 +268,7 @@ class LanguageFixer:
                         matched = True
 
                 if matched:
+                    # Event matched - don't process as regular character
                     return
 
                 # Handle backspace - remove last character from buffer
@@ -285,7 +320,7 @@ class LanguageFixer:
             for handler in self.handlers:
                 print(f"  - {handler.pair.name}: {handler.pair.hotkey}")
         else:
-            print("Hotkey: Cmd+Shift+H (or Cmd+Shift+י in Hebrew) to convert text")
+            print("Hotkey: Cmd+Option+H (or Cmd+Option+י in Hebrew) to convert text")
 
         print("\nPress Cmd+Esc to quit")
         if self.handlers:

@@ -5,22 +5,23 @@
 buffer_timeout: 10.0
 
 # Language pairs - each pair can have its own hotkey
-# Hotkey format: modifiers+key (e.g., cmd+shift+h)
+# Hotkey format: modifiers+key (e.g., cmd+alt+h)
+# Recommended: Use 'alt' (Option) instead of 'shift' to avoid conflicts with browser shortcuts
 # The key will work in both keyboard layouts (physical key position)
 language_pairs:
   - name: "Hebrew-English"
     mapping_file: "mappings/hebrew-english.json"
-    hotkey: "cmd+shift+h"
+    hotkey: "cmd+alt+h"
     enabled: true
 
   - name: "Arabic-English"
     mapping_file: "mappings/arabic-english.json"
-    hotkey: "cmd+shift+a"
+    hotkey: "cmd+alt+a"
     enabled: false
 
   - name: "Russian-English"
     mapping_file: "mappings/russian-english.json"
-    hotkey: "cmd+shift+r"
+    hotkey: "cmd+alt+r"
     enabled: false
 
 # Optional: Visual feedback when conversion happens

@@ -131,7 +131,7 @@ Grant permissions (see Permissions section above), restart, and you're done!
 lang-fix service restart
 ```
 
-Type in the wrong language and press `Cmd+Shift+H` to fix!
+Type in the wrong language and press `Cmd+Option+H` to fix!
 
 ## CLI Commands
 
@@ -205,7 +205,7 @@ buffer_timeout: 10.0
 language_pairs:
   - name: "Hebrew-English"
     mapping_file: "~/.config/language-fixer/mappings/hebrew-english.json"
-    hotkey: "cmd+shift+h"
+    hotkey: "cmd+alt+h"
     enabled: true
 ```
 
@@ -219,17 +219,17 @@ buffer_timeout: 10.0
 language_pairs:
   - name: "Hebrew-English"
     mapping_file: "~/.config/language-fixer/mappings/hebrew-english.json"
-    hotkey: "cmd+shift+h"
+    hotkey: "cmd+alt+h"
     enabled: true
 
   - name: "Arabic-English"
     mapping_file: "~/.config/language-fixer/mappings/arabic-english.json"
-    hotkey: "cmd+shift+a"
+    hotkey: "cmd+alt+a"
     enabled: true
 
   - name: "Russian-English"
     mapping_file: "~/.config/language-fixer/mappings/russian-english.json"
-    hotkey: "cmd+shift+r"
+    hotkey: "cmd+alt+r"
     enabled: true
 ```
 
@@ -252,20 +252,20 @@ All languages work exactly the same way!
 ### Basic Usage
 
 1. Type text in wrong language: `akuo` (meant to type שלום)
-2. Press `Cmd+Shift+H`
+2. Press `Cmd+Option+H`
 3. Text converts to: `שלום`
 
 ### Toggle Back
 
-1. Type: `hello` → Press `Cmd+Shift+H` → Converts to: `יקךךם`
-2. Press `Cmd+Shift+H` again (immediately) → Reverts to: `hello`
+1. Type: `hello` → Press `Cmd+Option+H` → Converts to: `יקךךם`
+2. Press `Cmd+Option+H` again (immediately) → Reverts to: `hello`
 
 ### Multiple Languages
 
 With config enabled for multiple languages:
-- `Cmd+Shift+H` for Hebrew-English
-- `Cmd+Shift+A` for Arabic-English
-- `Cmd+Shift+R` for Russian-English
+- `Cmd+Option+H` for Hebrew-English
+- `Cmd+Option+A` for Arabic-English
+- `Cmd+Option+R` for Russian-English
 
 ## Viewing Logs
 

@@ -119,7 +119,7 @@ def generate_mapping_interactive():
     print(f"1. Add it to your config.yaml:")
     print(f"   - name: \"{lang_name}\"")
     print(f"     mapping_file: \"{output_path}\"")
-    print(f"     hotkey: \"cmd+shift+<key>\"")
+    print(f"     hotkey: \"cmd+alt+<key>\"")
     print(f"     enabled: true")
     print("\n2. Restart language-fixer")
     print()

@@ -67,7 +67,7 @@ buffer_timeout: 10.0
 language_pairs:
   - name: "Hebrew-English"
     mapping_file: "~/.config/language-fixer/mappings/hebrew-english.json"
-    hotkey: "cmd+shift+h"
+    hotkey: "cmd+alt+h"
     enabled: true
 """
 

@@ -150,7 +150,7 @@ def get_default_config() -> Config:
         pair = LanguagePair(
             name="Hebrew-English",
             mapping_file=mapping_file,
-            hotkey="cmd+shift+h",
+            hotkey="cmd+alt+h",
             enabled=True,
             mapping=forward,
             reverse_mapping=reverse

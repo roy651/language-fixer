@@ -133,7 +133,7 @@ def install_service():
     print("  language-fixer-stop-service     - Stop the service")
     print("  language-fixer-uninstall-service - Uninstall completely")
     print()
-    print("Default Hotkey: Cmd+Shift+H (Hebrew-English)")
+    print("Default Hotkey: Cmd+Option+H (Hebrew-English)")
     print("Customize: Create a config.yaml file")
     print()
     print("Logs:")
